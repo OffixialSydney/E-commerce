@@ -34,7 +34,7 @@ async function getStats() {
   ]);
 
   const lowStockCount =
-    lowStockProducts?.filter((p) => p.stock_quantity <= p.low_stock_threshold).length ?? 0;
+    lowStockProducts?.filter((p: any) => p.stock_quantity <= p.low_stock_threshold).length ?? 0;
 
   return {
     totalProducts: totalProducts ?? 0,
