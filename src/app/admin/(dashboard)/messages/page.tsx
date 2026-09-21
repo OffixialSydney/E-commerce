@@ -23,7 +23,7 @@ export default async function AdminMessagesPage() {
     <div>
       <h1 className="font-display text-2xl text-navy">Messages</h1>
       <p className="mt-1 text-sm text-navy/60">
-        {list.filter((m) => !m.is_read).length} unread of {list.length}
+       {list.filter((m: any) => !m.is_read).length} unread of {list.length}
       </p>
       <div className="mt-6 space-y-3">
         {list.map((message) => (
