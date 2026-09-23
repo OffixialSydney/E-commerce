@@ -6,6 +6,8 @@ import { getStoreSettings } from "@/lib/data/settings";
 import { ProductCard } from "@/components/product/product-card";
 import { CategoryCard } from "@/components/product/category-card";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { HeroSlideshow } from "@/components/layout/hero-slideshow";
+
 
 export default async function HomePage() {
   const [featured, newArrivals, bestSellers, categories, settings] = await Promise.all([
@@ -44,9 +46,8 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-navy-light md:aspect-[3/4]">
-            <div className="absolute inset-0 bg-gradient-to-br from-gold/20 via-navy-light to-navy" />
-          </div>
+        <HeroSlideshow />
+
         </div>
       </section>
 
