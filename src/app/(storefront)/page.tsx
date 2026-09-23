@@ -46,7 +46,8 @@ export default async function HomePage() {
             </div>
           </div>
 
-        <HeroSlideshow />
+     <HeroSlideshow products={featured} />
+
 
         </div>
       </section>
