@@ -83,6 +83,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
           <h1 className="mt-1 font-display text-3xl text-navy">{product.name}</h1>
 
+<h1 className="mt-1 font-display text-3xl text-navy">{product.name}</h1>
+
+{count > 0 && (
+  <div className="mt-2 flex items-center gap-2">
+    <ReviewStars rating={average} />
+    <span className="text-sm text-navy/60">
+      {average} ({count} {count === 1 ? "review" : "reviews"})
+    </span>
+  </div>
+)}
+
+<div className="mt-4 flex items-center gap-3">
+
+
           <div className="mt-4 flex items-center gap-3">
             <span className="text-2xl font-semibold text-navy">
               {formatNaira(product.price)}
