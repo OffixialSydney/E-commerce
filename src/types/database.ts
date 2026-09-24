@@ -210,6 +210,7 @@ export interface Database {
 export interface ProductWithRelations extends Product {
   category: Category | null;
   images: ProductImage[];
+  reviews?: Review[];
 }
 
 // Cart item shape kept in localStorage (guest cart)
