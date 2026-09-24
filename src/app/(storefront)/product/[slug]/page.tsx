@@ -124,6 +124,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </div>
+          <div className="mt-8">
+            <AddToCartControls product={product} whatsappNumber={settings.whatsapp_number} />
+          </div>
+        </div>
+      </div>
+
+      <ReviewsSection productId={product.id} reviews={reviews} />
+
     </main>
   );
 }
