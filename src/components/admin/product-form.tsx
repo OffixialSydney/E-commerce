@@ -27,6 +27,11 @@ export function ProductForm({
     is_best_seller: product?.is_best_seller ?? false,
     is_active: product?.is_active ?? true,
   });
+
+const [stockText, setStockText] = useState(String(product?.stock_quantity ?? 0));
+const [thresholdText, setThresholdText] = useState(String(product?.low_stock_threshold ?? 5));
+
+
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -137,27 +142,41 @@ export function ProductForm({
           />
         </label>
 
-        <label className="block">
-          <span className="mb-1.5 block text-sm text-navy/70">Stock quantity</span>
-          <input
-            type="number"
-            min={0}
-            value={values.stock_quantity}
-            onChange={(e) => update("stock_quantity", Number(e.target.value))}
-            className="input"
-          />
-        </label>
+      <label className="block">
+  <span className="mb-1.5 block text-sm text-navy/70">Stock quantity</span>
+  <input
+    type="number"
+    min={0}
+    value={stockText}
+    onChange={(e) => {
+      setStockText(e.target.value);
+      update("stock_quantity", e.target.value === "" ? 0 : Number(e.target.value));
+    }}
+    onBlur={() => {
+      if (stockText === "") setStockText("0");
+    }}
+    className="input"
+  />
+</label>
 
-        <label className="block">
-          <span className="mb-1.5 block text-sm text-navy/70">Low stock threshold</span>
-          <input
-            type="number"
-            min={0}
-            value={values.low_stock_threshold}
-            onChange={(e) => update("low_stock_threshold", Number(e.target.value))}
-            className="input"
-          />
-        </label>
+
+       <label className="block">
+  <span className="mb-1.5 block text-sm text-navy/70">Low stock threshold</span>
+  <input
+    type="number"
+    min={0}
+    value={thresholdText}
+    onChange={(e) => {
+      setThresholdText(e.target.value);
+      update("low_stock_threshold", e.target.value === "" ? 0 : Number(e.target.value));
+    }}
+    onBlur={() => {
+      if (thresholdText === "") setThresholdText("0");
+    }}
+    className="input"
+  />
+</label>
+
       </div>
 
       <div className="rounded-2xl border border-navy/10 bg-white p-6">
