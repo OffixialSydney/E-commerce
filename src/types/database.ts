@@ -199,6 +199,8 @@ export interface Database {
       messages: { Row: Message; Insert: Partial<Message>; Update: Partial<Message> };
       store_settings: { Row: StoreSettings; Insert: Partial<StoreSettings>; Update: Partial<StoreSettings> };
       admin_profiles: { Row: AdminProfile; Insert: Partial<AdminProfile>; Update: Partial<AdminProfile> };
+      reviews: { Row: Review; Insert: Partial<Review>; Update: Partial<Review> };
+
     };
   };
 }
