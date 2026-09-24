@@ -6,6 +6,9 @@ import { ProductGallery } from "@/components/product/product-gallery";
 import { AddToCartControls } from "@/components/product/add-to-cart-controls";
 import { formatNaira, discountPercent } from "@/lib/utils/currency";
 import { productImageUrl } from "@/lib/utils/image-url";
+import { getProductReviews, getReviewSummary } from "@/lib/data/reviews";
+import { ReviewStars } from "@/components/product/review-stars";
+import { ReviewsSection } from "@/components/product/reviews-section";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -38,6 +41,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   ]);
 
   if (!product) notFound();
+
+  const reviews = await getProductReviews(product.id);
+  const { average, count } = getReviewSummary(reviews);
 
   const discount = discountPercent(product.price, product.previous_price);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
