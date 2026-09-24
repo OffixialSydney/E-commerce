@@ -169,6 +169,18 @@ export interface AdminProfile {
   updated_at: string;
 }
 
+export interface Review {
+  id: string;
+  product_id: string;
+  customer_name: string;
+  rating: number;
+  comment: string | null;
+  is_approved: boolean;
+  created_at: string;
+}
+
+
+
 // Minimal Database generic shape so @supabase/ssr's typed client compiles.
 // Expand with Row/Insert/Update variants per table as the app grows, or
 // swap this whole file for the CLI-generated version once you have a
