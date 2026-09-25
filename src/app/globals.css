@@ -8,20 +8,20 @@
 }
 
 body {
-  @apply bg-white text-navy antialiased;
+  @apply bg-[#F7F5F0] text-navy antialiased;
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl bg-navy px-6 py-3
-      text-sm font-medium text-white transition-colors hover:bg-navy-light
+    @apply inline-flex items-center justify-center rounded-xl bg-gold px-6 py-3
+      text-sm font-medium text-navy transition-colors hover:bg-gold-light
       focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-xl border border-navy/15
-      bg-white px-6 py-3 text-sm font-medium text-navy transition-colors
-      hover:bg-navy/5 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-xl border border-navy/20
+      bg-transparent px-6 py-3 text-sm font-medium text-navy transition-colors
+      hover:bg-navy hover:text-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
   }
 
   .btn-whatsapp {
@@ -31,11 +31,12 @@ body {
   }
 
   .card {
-    @apply rounded-2xl bg-white shadow-card transition-shadow hover:shadow-card-hover;
+    @apply rounded-2xl border border-navy/10 bg-white shadow-card transition-all
+      hover:border-gold/40 hover:shadow-card-hover;
   }
 
   .input {
-    @apply w-full rounded-xl border border-navy/15 px-3.5 py-2.5 text-sm text-navy
+    @apply w-full rounded-xl border border-navy/15 bg-white px-3.5 py-2.5 text-sm text-navy
       placeholder:text-navy/40 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold;
   }
 }
