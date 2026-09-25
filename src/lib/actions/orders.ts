@@ -22,6 +22,9 @@ export interface CreateOrderResult {
  *   initialize/verify flow is wired in Phase 3 on top of this same
  *   order record. Bank transfers are recorded as `awaiting_verification`
  *   and the customer uploads a screenshot afterwards (Phase 3 UI).
+ * - Size is customer-selected (S/M/L/etc.) and is not used to validate
+ *   stock or price — it is carried through purely so the order record
+ *   shows which size to package.
  */
 export async function createOrder(input: CreateOrderInput): Promise<CreateOrderResult> {
   const parsed = createOrderInputSchema.safeParse(input);
@@ -86,6 +89,7 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
         product_id: product.id,
         product_name: product.name,
         product_slug: product.slug,
+        size: item.size ?? null,
         unit_price: product.price,
         quantity: item.quantity,
         line_total: product.price * item.quantity,
