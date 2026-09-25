@@ -9,14 +9,14 @@ const config: Config = {
     extend: {
       colors: {
         navy: {
-          DEFAULT: "#0B1B33",
-          light: "#132A4D",
-          dark: "#050D1A",
+          DEFAULT: "#0A0A0A",
+          light: "#1C1C1C",
+          dark: "#000000",
         },
         gold: {
-          DEFAULT: "#C9A24B",
-          light: "#E0C77A",
-          dark: "#A9853A",
+          DEFAULT: "#D4AF37",
+          light: "#E8CD7A",
+          dark: "#A6821E",
         },
       },
       fontFamily: {
@@ -28,8 +28,8 @@ const config: Config = {
         "2xl": "1.5rem",
       },
       boxShadow: {
-        card: "0 4px 24px -4px rgba(11, 27, 51, 0.08)",
-        "card-hover": "0 8px 32px -4px rgba(11, 27, 51, 0.16)",
+        card: "0 4px 24px -4px rgba(0, 0, 0, 0.10)",
+        "card-hover": "0 8px 32px -4px rgba(0, 0, 0, 0.20)",
       },
     },
   },
