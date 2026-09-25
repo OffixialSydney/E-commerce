@@ -21,6 +21,7 @@ export type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 export const cartItemSchema = z.object({
   product_id: z.string().uuid(),
   quantity: z.number().int().positive(),
+  size: z.string().trim().nullable().optional(),
 });
 
 export const createOrderInputSchema = z.object({
