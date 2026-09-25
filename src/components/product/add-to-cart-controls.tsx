@@ -7,6 +7,8 @@ import { useCart } from "@/lib/cart/cart-context";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import type { ProductWithRelations } from "@/types/database";
 
+const SIZE_OPTIONS = ["S", "M", "L", "XL", "XXL", "XXXL"];
+
 export function AddToCartControls({
   product,
   whatsappNumber,
@@ -15,6 +17,8 @@ export function AddToCartControls({
   whatsappNumber: string;
 }) {
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [sizeError, setSizeError] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const { addItem } = useCart();
   const router = useRouter();
@@ -23,9 +27,8 @@ export function AddToCartControls({
   const isLowStock = inStock && product.stock_quantity <= product.low_stock_threshold;
   const primaryImage = product.images?.find((img) => img.is_primary) ?? product.images?.[0];
 
-  function handleAddToCart() {
-    if (!inStock) return;
-    addItem({
+  function buildCartItem() {
+    return {
       product_id: product.id,
       name: product.name,
       slug: product.slug,
@@ -33,14 +36,28 @@ export function AddToCartControls({
       image_path: primaryImage?.storage_path ?? null,
       quantity,
       stock_quantity: product.stock_quantity,
-    });
+      size: selectedSize,
+    };
+  }
+
+  function handleAddToCart() {
+    if (!inStock) return;
+    if (!selectedSize) {
+      setSizeError(true);
+      return;
+    }
+    addItem(buildCartItem());
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
   }
 
   function handleBuyNow() {
     if (!inStock) return;
-    handleAddToCart();
+    if (!selectedSize) {
+      setSizeError(true);
+      return;
+    }
+    addItem(buildCartItem());
     router.push("/checkout");
   }
 
@@ -71,6 +88,32 @@ export function AddToCartControls({
 
   return (
     <div className="space-y-4">
+      <div>
+        <span className="text-sm text-navy/70">Size</span>
+        <div className="mt-1.5 flex flex-wrap gap-2">
+          {SIZE_OPTIONS.map((size) => (
+            <button
+              key={size}
+              type="button"
+              onClick={() => {
+                setSelectedSize(size);
+                setSizeError(false);
+              }}
+              className={`rounded-xl border px-3.5 py-2 text-sm font-medium transition-colors ${
+                selectedSize === size
+                  ? "border-navy bg-navy text-white"
+                  : "border-navy/15 text-navy hover:border-navy/40"
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+        {sizeError && (
+          <p className="mt-1.5 text-xs text-red-600">Please select a size before continuing.</p>
+        )}
+      </div>
+
       <div className="flex items-center gap-3">
         <span className="text-sm text-navy/70">Quantity</span>
         <div className="flex items-center rounded-xl border border-navy/15">
