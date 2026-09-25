@@ -26,8 +26,11 @@ export function Navbar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="font-display text-xl tracking-tight text-navy">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="font-display text-2xl font-semibold tracking-wide text-navy sm:text-3xl"
+        >
           Sid Bespoke
         </Link>
 
