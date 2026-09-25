@@ -66,6 +66,16 @@ export interface ProductImage {
   created_at: string;
 }
 
+export interface Review {
+  id: string;
+  product_id: string;
+  customer_name: string;
+  rating: number;
+  comment: string | null;
+  is_approved: boolean;
+  created_at: string;
+}
+
 export interface Customer {
   id: string;
   full_name: string;
@@ -105,6 +115,7 @@ export interface OrderItem {
   product_id: string | null;
   product_name: string;
   product_slug: string | null;
+  size: string | null;
   unit_price: number;
   quantity: number;
   line_total: number;
@@ -169,18 +180,6 @@ export interface AdminProfile {
   updated_at: string;
 }
 
-export interface Review {
-  id: string;
-  product_id: string;
-  customer_name: string;
-  rating: number;
-  comment: string | null;
-  is_approved: boolean;
-  created_at: string;
-}
-
-
-
 // Minimal Database generic shape so @supabase/ssr's typed client compiles.
 // Expand with Row/Insert/Update variants per table as the app grows, or
 // swap this whole file for the CLI-generated version once you have a
@@ -191,6 +190,7 @@ export interface Database {
       categories: { Row: Category; Insert: Partial<Category>; Update: Partial<Category> };
       products: { Row: Product; Insert: Partial<Product>; Update: Partial<Product> };
       product_images: { Row: ProductImage; Insert: Partial<ProductImage>; Update: Partial<ProductImage> };
+      reviews: { Row: Review; Insert: Partial<Review>; Update: Partial<Review> };
       customers: { Row: Customer; Insert: Partial<Customer>; Update: Partial<Customer> };
       orders: { Row: Order; Insert: Partial<Order>; Update: Partial<Order> };
       order_items: { Row: OrderItem; Insert: Partial<OrderItem>; Update: Partial<OrderItem> };
@@ -199,8 +199,6 @@ export interface Database {
       messages: { Row: Message; Insert: Partial<Message>; Update: Partial<Message> };
       store_settings: { Row: StoreSettings; Insert: Partial<StoreSettings>; Update: Partial<StoreSettings> };
       admin_profiles: { Row: AdminProfile; Insert: Partial<AdminProfile>; Update: Partial<AdminProfile> };
-      reviews: { Row: Review; Insert: Partial<Review>; Update: Partial<Review> };
-
     };
   };
 }
@@ -222,4 +220,5 @@ export interface CartItem {
   image_path: string | null;
   quantity: number;
   stock_quantity: number; // snapshot, re-validated server-side at checkout
+  size: string | null;
 }
