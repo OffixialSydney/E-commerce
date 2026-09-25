@@ -9,6 +9,7 @@ import { productImageUrl } from "@/lib/utils/image-url";
 import { getProductReviews, getReviewSummary } from "@/lib/data/reviews";
 import { ReviewStars } from "@/components/product/review-stars";
 import { ReviewsSection } from "@/components/product/reviews-section";
+import { SizeGuide } from "@/components/product/size-guide";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -114,6 +115,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <p className="mt-5 leading-relaxed text-navy/70">{product.description}</p>
           )}
 
+          <div className="mt-4">
+            <SizeGuide />
+          </div>
+
           <div className="mt-8">
             <AddToCartControls product={product} whatsappNumber={settings.whatsapp_number} />
           </div>
@@ -123,4 +128,5 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <ReviewsSection productId={product.id} productSlug={product.slug} reviews={reviews} />
     </main>
   );
+}
 }
