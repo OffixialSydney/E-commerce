@@ -17,13 +17,19 @@ interface CartContextValue {
   itemCount: number;
   subtotal: number;
   addItem: (item: CartItem) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (productId: string, size: string | null) => void;
+  updateQuantity: (productId: string, size: string | null, quantity: number) => void;
   clearCart: () => void;
   isLoaded: boolean;
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
+
+// A cart line is uniquely identified by product + size, since the same
+// product in two different sizes must be packaged and tracked separately.
+function isSameLine(a: CartItem, b: { product_id: string; size: string | null }) {
+  return a.product_id === b.product_id && (a.size ?? null) === (b.size ?? null);
+}
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -35,7 +41,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as CartItem[];
-        if (Array.isArray(parsed)) setItems(parsed);
+        if (Array.isArray(parsed)) {
+          // Backfill size for carts saved before this field existed.
+          setItems(parsed.map((i) => ({ ...i, size: i.size ?? null })));
+        }
       }
     } catch {
       // Corrupt or inaccessible storage — start with an empty cart
@@ -56,29 +65,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   function addItem(newItem: CartItem) {
     setItems((prev) => {
-      const existing = prev.find((i) => i.product_id === newItem.product_id);
+      const existing = prev.find((i) => isSameLine(i, newItem));
       if (existing) {
         const nextQty = Math.min(
           existing.quantity + newItem.quantity,
           existing.stock_quantity
         );
         return prev.map((i) =>
-          i.product_id === newItem.product_id ? { ...i, quantity: nextQty } : i
+          isSameLine(i, newItem) ? { ...i, quantity: nextQty } : i
         );
       }
       return [...prev, newItem];
     });
   }
 
-  function removeItem(productId: string) {
-    setItems((prev) => prev.filter((i) => i.product_id !== productId));
+  function removeItem(productId: string, size: string | null) {
+    setItems((prev) => prev.filter((i) => !isSameLine(i, { product_id: productId, size })));
   }
 
-  function updateQuantity(productId: string, quantity: number) {
+  function updateQuantity(productId: string, size: string | null, quantity: number) {
     setItems((prev) =>
       prev
         .map((i) =>
-          i.product_id === productId
+          isSameLine(i, { product_id: productId, size })
             ? { ...i, quantity: Math.max(1, Math.min(quantity, i.stock_quantity)) }
             : i
         )
