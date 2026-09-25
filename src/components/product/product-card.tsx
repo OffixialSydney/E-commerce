@@ -9,9 +9,7 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
     product.images?.find((img) => img.is_primary) ?? product.images?.[0];
   const discount = discountPercent(product.price, product.previous_price);
   const inStock = product.stock_quantity > 0;
-
-const inStock = product.stock_quantity > 0;
-const isLowStock = inStock && product.stock_quantity <= product.low_stock_threshold;
+  const isLowStock = inStock && product.stock_quantity <= product.low_stock_threshold;
 
   return (
     <Link href={`/product/${product.slug}`} className="card group block overflow-hidden">
@@ -35,13 +33,11 @@ const isLowStock = inStock && product.stock_quantity <= product.low_stock_thresh
             </span>
           </div>
         )}
-{isLowStock && (
-  <span className="absolute bottom-3 left-3 rounded-full bg-red-600 px-2.5 py-1 text-xs font-medium text-white">
-    Only {product.stock_quantity} left
-  </span>
-)}
-
-
+        {isLowStock && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-red-600 px-2.5 py-1 text-xs font-medium text-white">
+            Only {product.stock_quantity} left
+          </span>
+        )}
       </div>
 
       <div className="p-4">
