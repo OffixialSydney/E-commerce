@@ -122,7 +122,7 @@ export function CheckoutForm({ settings }: { settings: StoreSettings }) {
     try {
       const response = await createOrder({
         customer: result.data,
-        items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })),
+        items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity, size: i.size })),
       });
 
       if (!response.success || !response.orderNumber || !response.accessCode) {
@@ -252,9 +252,10 @@ export function CheckoutForm({ settings }: { settings: StoreSettings }) {
         <h2 className="font-display text-lg text-navy">Order Summary</h2>
         <div className="space-y-2 text-sm">
           {items.map((item) => (
-            <div key={item.product_id} className="flex justify-between text-navy/70">
+            <div key={`${item.product_id}-${item.size ?? "nosize"}`} className="flex justify-between text-navy/70">
               <span className="truncate pr-2">
-                {item.name} × {item.quantity}
+                {item.name}
+                {item.size ? ` (${item.size})` : ""} × {item.quantity}
               </span>
               <span className="shrink-0">{formatNaira(item.price * item.quantity)}</span>
             </div>
