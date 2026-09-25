@@ -20,6 +20,7 @@ export function AddToCartControls({
   const router = useRouter();
 
   const inStock = product.stock_quantity > 0;
+  const isLowStock = inStock && product.stock_quantity <= product.low_stock_threshold;
   const primaryImage = product.images?.find((img) => img.is_primary) ?? product.images?.[0];
 
   function handleAddToCart() {
@@ -89,7 +90,13 @@ export function AddToCartControls({
             <Plus className="h-4 w-4" />
           </button>
         </div>
-        <span className="text-xs text-navy/40">{product.stock_quantity} available</span>
+        <span
+          className={`text-xs ${
+            isLowStock ? "font-medium text-red-600" : "text-navy/40"
+          }`}
+        >
+          {isLowStock ? `Only ${product.stock_quantity} left` : `${product.stock_quantity} available`}
+        </span>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
@@ -118,4 +125,5 @@ export function AddToCartControls({
       </a>
     </div>
   );
+}
 }
