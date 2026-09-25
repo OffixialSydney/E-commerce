@@ -45,7 +45,14 @@ export default async function AdminOrderDetailPage({
               {order.items.map((item) => (
                 <div key={item.id} className="flex justify-between text-navy/70">
                   <span>
-                    {item.product_name} × {item.quantity}
+                    {item.product_name}
+                    {item.size && (
+                      <span className="ml-1.5 rounded-full bg-navy/10 px-2 py-0.5 text-xs font-medium text-navy">
+                        Size {item.size}
+                      </span>
+                    )}
+                    {" × "}
+                    {item.quantity}
                   </span>
                   <span>{formatNaira(item.line_total)}</span>
                 </div>
