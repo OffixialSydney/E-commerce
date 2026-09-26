@@ -26,48 +26,63 @@ export function Navbar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="font-display text-2xl font-semibold tracking-wide text-navy sm:text-3xl"
-        >
-          Sid Bespoke
-        </Link>
+      <div className="mx-auto grid h-20 max-w-7xl grid-cols-3 items-center px-4 sm:px-6 lg:px-8">
+        {/* Left: mobile menu button + desktop nav links */}
+        <div className="flex items-center gap-8">
+          <button
+            className="rounded-full p-2 text-navy hover:bg-navy/5 md:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
 
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm transition-colors hover:text-gold-dark ${
-                pathname === link.href ? "text-navy font-medium" : "text-navy/70"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <div className="group relative">
-            <button className="text-sm text-navy/70 transition-colors hover:text-gold-dark">
-              Categories
-            </button>
-            <div className="invisible absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
-              <div className="rounded-xl border border-navy/10 bg-white p-2 shadow-card-hover">
-                {categories.map((cat) => (
-                  <Link
-                    key={cat.id}
-                    href={`/shop?category=${cat.slug}`}
-                    className="block rounded-lg px-3 py-2 text-sm text-navy/80 hover:bg-navy/5"
-                  >
-                    {cat.name}
-                  </Link>
-                ))}
+          <nav className="hidden items-center gap-8 md:flex">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm transition-colors hover:text-gold-dark ${
+                  pathname === link.href ? "text-navy font-medium" : "text-navy/70"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="group relative">
+              <button className="text-sm text-navy/70 transition-colors hover:text-gold-dark">
+                Categories
+              </button>
+              <div className="invisible absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
+                <div className="rounded-xl border border-navy/10 bg-white p-2 shadow-card-hover">
+                  {categories.map((cat) => (
+                    <Link
+                      key={cat.id}
+                      href={`/shop?category=${cat.slug}`}
+                      className="block rounded-lg px-3 py-2 text-sm text-navy/80 hover:bg-navy/5"
+                    >
+                      {cat.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </nav>
+          </nav>
+        </div>
 
-        <div className="flex items-center gap-3">
+        {/* Center: logo */}
+        <div className="flex justify-center">
+          <Link
+            href="/"
+            className="font-display text-2xl italic tracking-wide text-navy sm:text-3xl"
+            style={{ letterSpacing: "0.03em" }}
+          >
+            Sid Bespoke
+          </Link>
+        </div>
+
+        {/* Right: icons */}
+        <div className="flex items-center justify-end gap-3">
           <Link
             href="/shop"
             aria-label="Search products"
@@ -96,14 +111,6 @@ export function Navbar({
               </span>
             )}
           </Link>
-
-          <button
-            className="rounded-full p-2 text-navy hover:bg-navy/5 md:hidden"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
         </div>
       </div>
 
