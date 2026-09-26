@@ -1,9 +1,22 @@
 import Link from "next/link";
 import type { StoreSettings } from "@/types/database";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 
 export function Footer({ settings }: { settings: StoreSettings }) {
   return (
     <footer className="border-t border-navy/10 bg-navy text-white/80">
+      <div className="mx-auto max-w-7xl border-b border-white/10 px-4 py-10 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+          <div>
+            <p className="font-display text-lg text-white">Be first to know</p>
+            <p className="mt-1 text-sm text-white/60">
+              New drops and promotions, straight to your inbox.
+            </p>
+          </div>
+          <NewsletterSignup />
+        </div>
+      </div>
+
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4 lg:px-8">
         <div>
           <p className="font-display text-xl text-white">Sid Bespoke</p>
