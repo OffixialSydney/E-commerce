@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, ShoppingBag, Search } from "lucide-react";
+import { Menu, X, ShoppingBag, Search, Heart } from "lucide-react";
 import { useCart } from "@/lib/cart/cart-context";
+import { useWishlist } from "@/lib/wishlist/wishlist-context";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import type { Category } from "@/types/database";
 
@@ -22,6 +23,7 @@ export function Navbar({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount } = useCart();
+  const { itemCount: wishlistCount } = useWishlist();
   const pathname = usePathname();
 
   return (
@@ -103,6 +105,19 @@ export function Navbar({
             </svg>
           </a>
 
+          <Link
+            href="/wishlist"
+            className="relative rounded-full p-2 text-navy hover:bg-navy/5"
+            aria-label="View wishlist"
+          >
+            <Heart className="h-5 w-5" />
+            {wishlistCount > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-gold px-1 text-[10px] font-semibold text-navy">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
+
           <Link href="/cart" className="relative rounded-full p-2 text-navy hover:bg-navy/5" aria-label="View cart">
             <ShoppingBag className="h-5 w-5" />
             {itemCount > 0 && (
@@ -128,6 +143,13 @@ export function Navbar({
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/wishlist"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-lg px-3 py-2.5 text-base text-navy hover:bg-navy/5"
+            >
+              Wishlist
+            </Link>
             <p className="mt-3 border-t border-navy/10 px-3 pt-3 text-sm font-medium text-navy/50">
               Shop by category
             </p>
