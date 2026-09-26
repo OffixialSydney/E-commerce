@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { Heart } from "lucide-react";
 import { formatNaira, discountPercent } from "@/lib/utils/currency";
 import { productImageUrl } from "@/lib/utils/image-url";
+import { useWishlist } from "@/lib/wishlist/wishlist-context";
 import type { ProductWithRelations } from "@/types/database";
 
 export function ProductCard({ product }: { product: ProductWithRelations }) {
@@ -10,6 +14,20 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
   const discount = discountPercent(product.price, product.previous_price);
   const inStock = product.stock_quantity > 0;
   const isLowStock = inStock && product.stock_quantity <= product.low_stock_threshold;
+  const { isWishlisted, toggleWishlist } = useWishlist();
+  const wishlisted = isWishlisted(product.id);
+
+  function handleWishlistClick(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist({
+      product_id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.price,
+      image_path: primaryImage?.storage_path ?? null,
+    });
+  }
 
   return (
     <Link href={`/product/${product.slug}`} className="card group block overflow-hidden">
@@ -26,6 +44,15 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
             -{discount}%
           </span>
         )}
+        <button
+          onClick={handleWishlistClick}
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          className="absolute right-3 top-3 rounded-full bg-white/90 p-1.5 shadow-sm transition-colors hover:bg-white"
+        >
+          <Heart
+            className={`h-4 w-4 ${wishlisted ? "fill-gold text-gold" : "text-navy/60"}`}
+          />
+        </button>
         {!inStock && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/70">
             <span className="rounded-full bg-navy px-3 py-1.5 text-xs font-medium text-white">
