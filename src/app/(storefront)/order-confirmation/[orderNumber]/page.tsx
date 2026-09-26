@@ -8,6 +8,7 @@ import { formatNaira } from "@/lib/utils/currency";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { PAYMENT_STATUS_LABELS } from "@/lib/order-status-labels";
 import { PaymentProofUpload } from "@/components/order/payment-proof-upload";
+import { ClearCartOnMount } from "@/components/order/clear-cart-on-mount";
 
 export const metadata: Metadata = { title: "Order Received" };
 
@@ -32,6 +33,8 @@ export default async function OrderConfirmationPage({
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-14 sm:px-6 lg:px-8">
+      <ClearCartOnMount />
+
       <div className="flex flex-col items-center text-center">
         <CheckCircle2 className="h-12 w-12 text-gold-dark" />
         <h1 className="mt-4 font-display text-3xl text-navy">Order received!</h1>
@@ -57,7 +60,14 @@ export default async function OrderConfirmationPage({
           {order.items.map((item) => (
             <div key={item.id} className="flex justify-between text-navy/70">
               <span>
-                {item.product_name} × {item.quantity}
+                {item.product_name}
+                {item.size && (
+                  <span className="ml-1.5 rounded-full bg-navy/10 px-2 py-0.5 text-xs font-medium text-navy">
+                    Size {item.size}
+                  </span>
+                )}
+                {" × "}
+                {item.quantity}
               </span>
               <span>{formatNaira(item.line_total)}</span>
             </div>
