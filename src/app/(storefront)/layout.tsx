@@ -1,4 +1,5 @@
 import { CartProvider } from "@/lib/cart/cart-context";
+import { WishlistProvider } from "@/lib/wishlist/wishlist-context";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppFloatButton } from "@/components/whatsapp-float-button";
@@ -17,10 +18,12 @@ export default async function StorefrontLayout({
 
   return (
     <CartProvider>
-      <Navbar categories={categories} whatsappNumber={settings.whatsapp_number} />
-      {children}
-      <Footer settings={settings} />
-      <WhatsAppFloatButton whatsappNumber={settings.whatsapp_number} />
+      <WishlistProvider>
+        <Navbar categories={categories} whatsappNumber={settings.whatsapp_number} />
+        {children}
+        <Footer settings={settings} />
+        <WhatsAppFloatButton whatsappNumber={settings.whatsapp_number} />
+      </WishlistProvider>
     </CartProvider>
   );
 }
