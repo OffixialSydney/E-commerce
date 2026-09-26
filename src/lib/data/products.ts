@@ -120,3 +120,49 @@ export async function getBestSellers(limit = 8): Promise<ProductWithRelations[]>
 
   return (data ?? []) as unknown as ProductWithRelations[];
 }
+
+/**
+ * Products to show as "You may also like" on a product page.
+ * Prefers other active products in the same category; if the product
+ * has no category (your categories table may be empty), or there
+ * aren't enough matches, it fills the remainder with the newest other
+ * products so the section is never empty.
+ */
+export async function getRelatedProducts(
+  currentProductId: string,
+  categoryId: string | null,
+  limit = 4
+): Promise<ProductWithRelations[]> {
+  const supabase = await createClient();
+  const results: ProductWithRelations[] = [];
+
+  if (categoryId) {
+    const { data: sameCategory } = await supabase
+      .from("products")
+      .select("*, category:categories(*), images:product_images(*)")
+      .eq("is_active", true)
+      .eq("category_id", categoryId)
+      .neq("id", currentProductId)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (sameCategory) results.push(...(sameCategory as unknown as ProductWithRelations[]));
+  }
+
+  if (results.length < limit) {
+    const { data: fallback } = await supabase
+      .from("products")
+      .select("*, category:categories(*), images:product_images(*)")
+      .eq("is_active", true)
+      .neq("id", currentProductId)
+      .order("created_at", { ascending: false })
+      .limit(limit - results.length + results.length); // fetch a bit extra to filter dupes
+
+    for (const p of (fallback ?? []) as unknown as ProductWithRelations[]) {
+      if (results.length >= limit) break;
+      if (!results.find((r) => r.id === p.id)) results.push(p);
+    }
+  }
+
+  return results.slice(0, limit);
+}
