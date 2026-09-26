@@ -81,6 +81,11 @@ export function CheckoutForm({ settings }: { settings: StoreSettings }) {
       return;
     }
 
+    // Cart is intentionally NOT cleared here — the customer hasn't paid
+    // yet. It's only cleared once they land on the order confirmation
+    // page after Paystack verifies the payment succeeded, so a cancelled
+    // or failed card payment never leaves them with an empty cart and no
+    // completed order.
     window.location.href = payment.authorizationUrl;
   }
 
@@ -131,13 +136,16 @@ export function CheckoutForm({ settings }: { settings: StoreSettings }) {
         return;
       }
 
-      clearCart();
-
       if (form.payment_method === "card") {
+        // Do not clear the cart yet — only once payment is verified,
+        // on the order confirmation page (see ClearCartOnMount there).
         await goToPaystack(response.orderNumber, response.accessCode, form.email);
         return;
       }
 
+      // Bank transfer: the order is genuinely placed right away, so it's
+      // safe to clear the cart immediately.
+      clearCart();
       router.push(`/order-confirmation/${response.orderNumber}?code=${response.accessCode}`);
     } catch {
       setSubmitError("Something went wrong placing your order. Please try again.");
