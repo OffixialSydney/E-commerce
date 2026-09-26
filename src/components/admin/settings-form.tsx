@@ -16,6 +16,9 @@ export function SettingsForm({ settings }: { settings: StoreSettings }) {
     contact_email: settings.contact_email ?? "",
     contact_phone: settings.contact_phone ?? "",
   });
+
+  const [deliveryFeeText, setDeliveryFeeText] = useState(String(settings.delivery_fee ?? 0));
+
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -115,8 +118,14 @@ export function SettingsForm({ settings }: { settings: StoreSettings }) {
           <input
             type="number"
             min={0}
-            value={values.delivery_fee}
-            onChange={(e) => update("delivery_fee", Number(e.target.value))}
+            value={deliveryFeeText}
+            onChange={(e) => {
+              setDeliveryFeeText(e.target.value);
+              update("delivery_fee", e.target.value === "" ? 0 : Number(e.target.value));
+            }}
+            onBlur={() => {
+              if (deliveryFeeText === "") setDeliveryFeeText("0");
+            }}
             className="input"
           />
         </label>
