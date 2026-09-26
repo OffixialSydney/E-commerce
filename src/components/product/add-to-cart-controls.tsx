@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Heart } from "lucide-react";
 import { useCart } from "@/lib/cart/cart-context";
+import { useWishlist } from "@/lib/wishlist/wishlist-context";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import type { ProductWithRelations } from "@/types/database";
 
@@ -21,11 +22,23 @@ export function AddToCartControls({
   const [sizeError, setSizeError] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const { addItem } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
   const router = useRouter();
 
   const inStock = product.stock_quantity > 0;
   const isLowStock = inStock && product.stock_quantity <= product.low_stock_threshold;
   const primaryImage = product.images?.find((img) => img.is_primary) ?? product.images?.[0];
+  const wishlisted = isWishlisted(product.id);
+
+  function handleToggleWishlist() {
+    toggleWishlist({
+      product_id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.price,
+      image_path: primaryImage?.storage_path ?? null,
+    });
+  }
 
   function buildCartItem() {
     return {
@@ -69,6 +82,13 @@ export function AddToCartControls({
           className="w-full cursor-not-allowed rounded-xl bg-navy/10 px-6 py-3 text-sm font-medium text-navy/40"
         >
           Out of Stock
+        </button>
+        <button
+          onClick={handleToggleWishlist}
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-navy/15 px-6 py-3 text-sm font-medium text-navy transition-colors hover:border-gold"
+        >
+          <Heart className={`h-4 w-4 ${wishlisted ? "fill-gold text-gold" : "text-navy/60"}`} />
+          {wishlisted ? "Saved to Wishlist" : "Save for Later"}
         </button>
         <a
           href={buildWhatsAppLink(whatsappNumber, {
@@ -151,6 +171,13 @@ export function AddToCartControls({
           className="btn-primary flex-1 bg-gold text-navy hover:bg-gold-light"
         >
           Buy Now
+        </button>
+        <button
+          onClick={handleToggleWishlist}
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          className="flex items-center justify-center rounded-xl border border-navy/15 px-4 py-3 transition-colors hover:border-gold"
+        >
+          <Heart className={`h-5 w-5 ${wishlisted ? "fill-gold text-gold" : "text-navy/60"}`} />
         </button>
       </div>
 
