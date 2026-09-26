@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/data/products";
+import { getProductBySlug, getRelatedProducts } from "@/lib/data/products";
 import { getStoreSettings } from "@/lib/data/settings";
 import { ProductGallery } from "@/components/product/product-gallery";
 import { AddToCartControls } from "@/components/product/add-to-cart-controls";
@@ -10,6 +10,7 @@ import { getProductReviews, getReviewSummary } from "@/lib/data/reviews";
 import { ReviewStars } from "@/components/product/review-stars";
 import { ReviewsSection } from "@/components/product/reviews-section";
 import { SizeGuide } from "@/components/product/size-guide";
+import { RelatedProducts } from "@/components/product/related-products";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -45,6 +46,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const reviews = await getProductReviews(product.id);
   const { average, count } = getReviewSummary(reviews);
+  const relatedProducts = await getRelatedProducts(product.id, product.category_id);
 
   const discount = discountPercent(product.price, product.previous_price);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -126,7 +128,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       <ReviewsSection productId={product.id} productSlug={product.slug} reviews={reviews} />
+
+      <RelatedProducts products={relatedProducts} />
     </main>
   );
 }
-
