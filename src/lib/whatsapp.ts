@@ -29,7 +29,15 @@ export function buildWhatsAppLink(
   if (parts.orderNumber) lines.push(`Order number: ${parts.orderNumber}`);
 
   const text = encodeURIComponent(lines.join("\n"));
-  const cleanNumber = whatsappNumber.replace(/[^0-9]/g, "");
+  let cleanNumber = whatsappNumber.replace(/[^0-9]/g, "");
+
+  // Normalize Nigerian local format (e.g. 0803xxxxxxx) to international
+  // format wa.me requires (234803xxxxxxx) — no leading zero, no plus.
+  if (cleanNumber.startsWith("0")) {
+    cleanNumber = "234" + cleanNumber.slice(1);
+  } else if (!cleanNumber.startsWith("234")) {
+    cleanNumber = "234" + cleanNumber;
+  }
 
   return `https://wa.me/${cleanNumber}?text=${text}`;
 }
