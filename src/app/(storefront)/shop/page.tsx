@@ -6,7 +6,7 @@ import { ShopFilters } from "@/components/shop/shop-filters";
 
 export const metadata: Metadata = {
   title: "Shop",
-  description: "Browse clothing, shoes, bags, accessories, watches and beauty at Sid Bespoke.",
+  description: "Browse clothing, shoes, bags, accessories, watches and beauty at SYD Bespoke.",
 };
 
 type SortOption = "newest" | "price_asc" | "price_desc" | "popular";
