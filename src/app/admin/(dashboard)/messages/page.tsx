@@ -47,7 +47,7 @@ export default async function AdminMessagesPage() {
                 {message.phone && (
                   <a
                     href={buildWhatsAppLink(message.phone, {
-                      note: `Hi ${message.full_name}, this is Sid Bespoke replying to your message.`,
+                      note: `Hi ${message.full_name}, this is SYD Bespoke replying to your message.`,
                     })}
                     target="_blank"
                     rel="noopener noreferrer"
