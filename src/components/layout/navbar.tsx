@@ -77,7 +77,7 @@ export function Navbar({
         <div className="flex justify-center">
           <Link href="/" className="relative h-14 w-40 sm:h-16 sm:w-48">
             <Image
-              src="/logo.png"
+              src="/Logo.PNG"
               alt="Sid Bespoke"
               fill
               className="object-contain"
