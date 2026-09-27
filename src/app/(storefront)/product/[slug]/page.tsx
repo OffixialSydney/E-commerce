@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   return {
     title: product.name,
-    description: product.description ?? `${product.name} — available now at Sid Bespoke.`,
+    description: product.description ?? `${product.name} — available now at SYD Bespoke.`,
     openGraph: {
       title: product.name,
       description: product.description ?? undefined,
