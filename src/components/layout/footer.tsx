@@ -19,7 +19,7 @@ export function Footer({ settings }: { settings: StoreSettings }) {
 
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4 lg:px-8">
         <div>
-          <p className="font-display text-xl text-white">Sid Bespoke</p>
+          <p className="font-display text-xl text-white">SYD Bespoke</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
             Style made personal — carefully selected clothing, shoes, bags and
             accessories, delivered across Nigeria.
@@ -54,7 +54,7 @@ export function Footer({ settings }: { settings: StoreSettings }) {
       </div>
 
       <div className="border-t border-white/10 px-4 py-6 text-center text-xs text-white/40 sm:px-6 lg:px-8">
-        © {new Date().getFullYear()} Sid Bespoke. All rights reserved.
+        © {new Date().getFullYear()} SYD Bespoke. All rights reserved.
       </div>
     </footer>
   );
