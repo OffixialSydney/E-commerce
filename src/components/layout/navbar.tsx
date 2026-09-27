@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, ShoppingBag, Search, Heart } from "lucide-react";
@@ -74,12 +75,14 @@ export function Navbar({
 
         {/* Center: logo */}
         <div className="flex justify-center">
-          <Link
-            href="/"
-            className="font-display text-2xl italic tracking-wide text-navy sm:text-3xl"
-            style={{ letterSpacing: "0.03em" }}
-          >
-            Sid Bespoke
+          <Link href="/" className="relative h-14 w-40 sm:h-16 sm:w-48">
+            <Image
+              src="/logo.png"
+              alt="Sid Bespoke"
+              fill
+              className="object-contain"
+              priority
+            />
           </Link>
         </div>
 
