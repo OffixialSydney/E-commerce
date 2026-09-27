@@ -149,7 +149,7 @@ export default async function HomePage() {
       {/* Why shop with us */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="mb-10 text-center font-display text-2xl text-navy sm:text-3xl">
-          Why Shop with Sid Bespoke
+          Why Shop with SYD Bespoke
         </h2>
         <div className="grid gap-8 sm:grid-cols-3">
           <div className="text-center">
