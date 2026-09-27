@@ -78,7 +78,7 @@ export function Navbar({
           <Link href="/" className="relative h-14 w-40 sm:h-16 sm:w-48">
             <Image
               src="/Logo.PNG"
-              alt="Sid Bespoke"
+              alt="SYD Bespoke"
               fill
               className="object-contain"
               priority
